@@ -1,6 +1,6 @@
 # Share Energy – Home Assistant Integration
 
-<img src="images/logo.svg" alt="Share Energy logo" width="100" align="right"/>
+<img src="images/logo.png" alt="Share Energy logo" width="100" align="right"/>
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 
