@@ -3,6 +3,9 @@
 <img src="images/logo.png" alt="Share Energy logo" width="100" align="right"/>
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![GitHub Activity][commits-shield]][commits]
+[![License][license-shield]](LICENSE)
+[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
 A HACS custom integration that scrapes live energy tariff prices from [share-energy.com](https://share-energy.com/residential-tabs) and exposes them as Home Assistant sensor entities.
 
@@ -40,3 +43,11 @@ All prices are **inc. VAT** as shown on the website. Prices refresh every hour.
 1. Copy `custom_components/share_energy/` into your HA `config/custom_components/` directory
 2. Restart Home Assistant
 3. Add the integration via the UI as above
+
+---
+
+[buymecoffee]: https://www.buymeacoffee.com/cormacmcgrath
+[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=flat
+[commits-shield]: https://img.shields.io/github/commit-activity/y/Cormac131/HomeAssistant-ShareEnergy
+[commits]: https://github.com/Cormac131/HomeAssistant-ShareEnergy/commits/main
+[license-shield]: https://img.shields.io/github/license/Cormac131/HomeAssistant-ShareEnergy
