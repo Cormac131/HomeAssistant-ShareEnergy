@@ -1,0 +1,74 @@
+name: Scrape Health Check
+
+on:
+  schedule:
+    - cron: "0 8 * * *"   # daily at 08:00 UTC
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements-test.txt
+
+      - name: Run unit tests (parser)
+        id: unit_tests
+        run: pytest tests/test_parser.py -v --tb=short
+
+      - name: Run live scrape tests
+        id: live_tests
+        # Don't skip on schedule — that's the whole point of the daily run.
+        # On PRs, skip to avoid flaky failures from network issues.
+        env:
+          SHARE_ENERGY_SKIP_LIVE: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+        run: pytest tests/test_live.py -v --tb=short
+
+      - name: Raise GitHub issue on scrape failure
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE="Scrape failure: Share Energy website may have changed"
+          # Check whether an open issue with this title already exists to avoid spam
+          EXISTING=$(gh issue list --state open --search "$TITLE" --json number --jq 'length')
+          if [ "$EXISTING" -gt "0" ]; then
+            echo "Open issue already exists — skipping creation."
+            exit 0
+          fi
+          gh issue create \
+            --title "$TITLE" \
+            --label "bug" \
+            --body "$(cat <<'EOF'
+          ## Scrape health check failed
+
+          The scheduled live scrape test failed on **$(date -u +"%Y-%m-%d")**, which means one or more tariff prices could not be extracted from [share-energy.com/residential-tabs](https://share-energy.com/residential-tabs).
+
+          ### Likely causes
+          - The website HTML structure has changed (class names, element hierarchy, tab rendering)
+          - A tariff has been renamed or removed
+          - The website is temporarily unavailable
+
+          ### What to do
+          1. Visit [share-energy.com/residential-tabs](https://share-energy.com/residential-tabs) and check the page renders correctly
+          2. Inspect the HTML source and compare against the regex patterns in [`coordinator.py`](../../blob/main/custom_components/share_energy/coordinator.py)
+          3. Update `_LABEL_RE` patterns or the `_parse_page` logic as needed
+          4. Run `pytest tests/test_live.py -v` locally to confirm the fix
+
+          > This issue was opened automatically by the [Scrape Health Check](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) workflow.
+          EOF
+          )"

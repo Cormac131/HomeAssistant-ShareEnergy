@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Share Energy",
+        "description": "Set up Share Energy to pull live tariff prices from {url}. No configuration needed — prices refresh every hour."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only one Share Energy integration is needed."
+    }
+  }
+}
