@@ -2,5 +2,6 @@
   "name": "Share Energy",
   "content_in_root": false,
   "render_readme": true,
-  "homeassistant": "2023.8.0"
+  "homeassistant": "2023.8.0",
+  "icon": "https://raw.githubusercontent.com/Cormac131/HomeAssistant-ShareEnergy/main/images/icon.png"
 }
