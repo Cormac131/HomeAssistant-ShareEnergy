@@ -1,5 +1,7 @@
 # Share Energy – Home Assistant Integration
 
+<img src="images/logo.svg" alt="Share Energy logo" width="100" align="right"/>
+
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 
 A HACS custom integration that scrapes live energy tariff prices from [share-energy.com](https://share-energy.com/residential-tabs) and exposes them as Home Assistant sensor entities.

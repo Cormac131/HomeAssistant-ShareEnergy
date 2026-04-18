@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Background circle -->
+  <circle cx="128" cy="128" r="128" fill="#005167"/>
+
+  <!-- Lightning bolt (centred) -->
+  <path d="M148 32 L88 140 h44 L116 224 L180 104 h-46 Z"
+        fill="#ffffff"
+        stroke="#ffffff"
+        stroke-width="2"
+        stroke-linejoin="round"/>
+</svg>
