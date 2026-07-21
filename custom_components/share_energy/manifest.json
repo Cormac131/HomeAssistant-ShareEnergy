@@ -3,9 +3,9 @@
   "name": "Share Energy",
   "codeowners": ["@Cormac131"],
   "config_flow": true,
-  "documentation": "https://github.com/CormacMcGrath/HomeAssistant-ShareEnergy",
+  "documentation": "https://github.com/Cormac131/HomeAssistant-ShareEnergy",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/CormacMcGrath/HomeAssistant-ShareEnergy/issues",
+  "issue_tracker": "https://github.com/Cormac131/HomeAssistant-ShareEnergy/issues",
   "requirements": ["beautifulsoup4==4.12.3"],
   "version": "1.0.0"
 }

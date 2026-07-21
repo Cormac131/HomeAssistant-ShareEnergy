@@ -31,7 +31,7 @@ This is a Home Assistant HACS custom integration. HA loads `custom_components/sh
 - `sensor.py` — creates one `CoordinatorEntity` sensor per tariff/rate combination, driven entirely by `coordinator.data`.
 - `const.py` — single source of truth for tariff definitions (`TARIFFS` dict), rate keys, labels, and units.
 
-**Scraping approach:** The page (`https://share-energy.com/residential-tabs`) is server-side rendered. Prices live in `<div class="tab-pane ... pricing">` sections, one per tariff. Within each pane, `<li>` elements hold a `<b>` label (e.g. `"Day Rate"`, `"24 Hr Rate"`) and the Inc. VAT price as the second `<b>` tag. `_LABEL_MAP` in `parser.py` maps these page labels to internal rate keys. The site uses a self-signed cert chain; `ssl=False` is intentional in both `coordinator.py` and `test_live.py`.
+**Scraping approach:** The page (`https://share-energy.com/residential-tabs`) is server-side rendered. Prices live in `<div class="tab-pane ... pricing">` sections, one per tariff. Within each pane, `<li>` elements hold a `<b>` label (e.g. `"Day Rate"`, `"24 Hr Rate"`) and the Inc. VAT price as the second `<b>` tag. `_LABEL_MAP` in `parser.py` maps these page labels to internal rate keys. The fetch relies on standard TLS verification (Home Assistant's shared `async_get_clientsession(hass)` in `coordinator.py`); no certificate verification is bypassed.
 
 **Adding a new tariff:** Add an entry to `TARIFFS` in `const.py` with its `search_text` (the exact heading text on the page), `name`, and `rates` list. No other files need changing.
 

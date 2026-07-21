@@ -16,7 +16,7 @@ SKIP_LIVE = os.getenv("SHARE_ENERGY_SKIP_LIVE", "0") == "1"
 
 async def _fetch_and_parse() -> dict:
     async with aiohttp.ClientSession() as session:
-        async with session.get(share_const.SCRAPE_URL, timeout=aiohttp.ClientTimeout(total=30), ssl=False) as resp:
+        async with session.get(share_const.SCRAPE_URL, timeout=aiohttp.ClientTimeout(total=30)) as resp:
             resp.raise_for_status()
             html = await resp.text()
     return share_parser.parse_page(html)
