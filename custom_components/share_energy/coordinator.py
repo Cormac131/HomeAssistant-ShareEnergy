@@ -7,6 +7,7 @@ from datetime import timedelta
 import aiohttp
 
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, SCRAPE_URL, DEFAULT_SCAN_INTERVAL
@@ -27,11 +28,13 @@ class ShareEnergyCoordinator(DataUpdateCoordinator):
         )
 
     async def _async_update_data(self) -> dict[str, dict[str, float | None]]:
+        session = async_get_clientsession(self.hass)
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(SCRAPE_URL, timeout=aiohttp.ClientTimeout(total=30), ssl=False) as resp:
-                    resp.raise_for_status()
-                    html = await resp.text()
+            async with session.get(
+                SCRAPE_URL, timeout=aiohttp.ClientTimeout(total=30)
+            ) as resp:
+                resp.raise_for_status()
+                html = await resp.text()
         except aiohttp.ClientError as err:
             raise UpdateFailed(f"Error fetching Share Energy page: {err}") from err
 
